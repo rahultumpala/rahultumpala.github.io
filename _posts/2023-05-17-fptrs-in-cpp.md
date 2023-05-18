@@ -165,7 +165,7 @@ you have to use the `this` pointer to access the function the pointer points to,
 
 If invocation doesn't happen inside `genericClass` scope, then it's pretty straight-forward: de-reference the pointer and invoke.
 
-###Example
+### Example
 
 - **Higher order functions**
 
