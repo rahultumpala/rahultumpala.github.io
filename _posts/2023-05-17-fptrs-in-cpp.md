@@ -56,7 +56,7 @@ ns1::object *(*generic::fptr)(ns2::object *, ns3::object *);
 
 now `fptr` points to functions that are defined in the `generic` namespace or class
 
-###typedef to the rescue
+### typedef to the rescue
 
 If you're working in a large project, you're bound to end up classifying objects into separate namespaces, and eventually end up with a large, ambiguous (and ugly) syntax.
 
