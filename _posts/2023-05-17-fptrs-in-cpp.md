@@ -4,9 +4,9 @@ Hello there,
 
 I've been [writing an interpreter](https://interpreterbook.com) for the Monkey programming langugage in C++ for quite some time now. It is nearing completion :)
 
-One of the steps involved in acheiving a fully functional interpreter is writing a parser. The interpreter I'm writing uses [top-down operator precedence](https://tdop.github.io/) by Vaughan Pratt. It is also famously known as Pratt parsing.
+One of the steps involved in acheiving a fully functional interpreter is writing a parser. The interpreter I'm writing uses [top-down operator precedence](https://tdop.github.io/) by Vaughan Pratt. It is also popularly known as Pratt parsing.
 
-Thorsten cleanly implements pratt parsing by storing parse functions for each different token encountered. The implementation is actually quite simple....but in Golang :(
+Thorsten cleanly implements pratt parsing by storing parse functions for each different token encountered. The implementation is actually quite simple....in Golang :(
 
 The implementation, when translated into C++ demands storage, retrieval and invocation of function pointers. 
 
@@ -132,12 +132,35 @@ ptr_map[some_enum::name] = &ns1::some_method;
 
 ### invocation
 
+Congrats! Now you know how to create function pointers and assign them to functions already defined. Let's invoke these pointers now:
 
+first, let us retrieve a pointer we earlier stored in a map, and assign it to a variable
 
+```c++
+// simple right
+std::string *(*fptr)() = ptr_map[0]; 
 
+// fptr now points to the some_method function we wrote earlier
+```
 
+what about namespaces and classes?
+not so simple :(
 
+```c++
+genericNs::object *(genericClass::*fptr)() = ptr_map["key"]
+```
 
+`fptr` now points to an instance of `genericClass`
+ 
+if you're running this inside the `genericClass` object, the invocation looks like this
 
+```c++
+// inside genericClass scope
 
+std::string *result = (this->*fptr)();
+```
+you have to use the `this` pointer to access the function the pointer points to, which is done by de-referencing `fptr`.
 
+If invocation doesn't happen inside `genericClass` scope, then it's pretty straight-forward: de-reference the pointer and invoke.
+
+Well, that's it for this article. See you in the next one :)
