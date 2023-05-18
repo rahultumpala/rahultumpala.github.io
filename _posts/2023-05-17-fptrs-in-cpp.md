@@ -10,7 +10,7 @@ Thorsten cleanly implements pratt parsing by storing parse functions for each di
 
 The implementation, when translated into C++ demands storage, retrieval and invocation of function pointers.
 
-####Function pointers are deceptively easy
+#### Function pointers are deceptively easy
 
 A lot of tutorials online cover the usage of function pointers in very trivial situations, but storing functions defined in different namespaces, spanning different classes, having different return types...is most definitely harder than it looks.
 
