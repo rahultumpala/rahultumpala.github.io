@@ -1,5 +1,5 @@
 title: "Rahul's blog"
-description: "Rahul's blog, about algorithms, compilers, functional programming and programming lanugages."
+description: "About algorithms, compilers, functional programming and programming lanugages."
 author: "Rahul Tumpala"
 url: https://rahultumpala.github.io
 lang: en
@@ -9,6 +9,7 @@ linkedin_username: "rahul-tumpala"
 
 theme: "minima"
 
+# rss: rss
 kramdown:
   syntax_highlighter_opts:
     disable: true
