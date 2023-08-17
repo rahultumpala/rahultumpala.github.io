@@ -1,6 +1,8 @@
 title: "Rahul's blog"
-author: "Rahul Tumpala"
 description: "Rahul's blog, about algorithms, compilers, functional programming and programming lanugages."
+author: "Rahul Tumpala"
+url: https://rahultumpala.github.io
+lang: en
 
 github_username: "rahultumpala"
 linkedin_username: "rahul-tumpala"
@@ -8,10 +10,10 @@ linkedin_username: "rahul-tumpala"
 theme: "minima"
 
 rss: rss
-
 kramdown:
   syntax_highlighter_opts:
     disable: true
+permalink: /:year/:title/
 
 plugins:
   - jekyll-feed
@@ -23,11 +25,13 @@ titles_from_headings:
   collections: true
 
 defaults:
-  -
-    scope:
+  - scope:
       path: ""
       type: "posts"
     values:
-      layout: "post"
-      comments: true  # add comments to all blog posts
       social-share: true
+      layout: post
+
+exclude:
+  - "Gemfile"
+  - "Gemfile.lock"
