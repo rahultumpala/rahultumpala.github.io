@@ -14,4 +14,5 @@ As I continue to study computer science on my own, I am going to find many beaut
 
 Currently, I'm learning how to write a compiler. Stay tuned for more amazing things.
 
-~rahultumpala
+
+_~rahultumpala_

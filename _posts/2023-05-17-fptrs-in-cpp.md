@@ -231,3 +231,6 @@ g++ ./fptrs.cpp -o output
 And.....this is how you use function pointers. Simple, yet powerful stuff.
 
 Well, that's it for this article. See you in the next one :)
+
+
+_~rahultumpala_
