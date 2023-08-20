@@ -1,0 +1,42 @@
+@font-face {
+    font-family: 'Roboto Mono';
+    src: url('fonts/RobotoMono-VariableFont_wght.ttf') format('truetype');
+    font-weight: 1 999;
+    font-style: normal;
+    font-stretch: 50% 200%;
+}
+
+@font-face {
+    font-family: 'Roboto Mono';
+    src: url('fonts/RobotoMono-Italic-VariableFont_wght.ttf') format('truetype');
+    font-weight: 1 999;
+    font-style: italic;
+    font-stretch: 50% 200%;
+}
+
+@font-face {
+    font-family: 'Noto Serif';
+    src: url('fonts/NotoSerif-VariableFont_wdth\,wght.ttf') format('truetype');
+    font-weight: 1 999;
+    font-style: normal;
+    font-stretch: 50% 200%;
+}
+
+@font-face {
+    font-family: 'Noto Serif';
+    src: url('fonts/NotoSerif-Italic-VariableFont_wdth\,wght.ttf') format('truetype');
+    font-weight: 1 999;
+    font-style: italic;
+    font-stretch: 50% 200%;
+}
+
+/* Define other weights and styles as needed */
+
+
+body {
+    font-family: 'Noto Serif', monospace !important;
+}
+
+a {
+    color: #860111 !important;
+}

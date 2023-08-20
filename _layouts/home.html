@@ -1,0 +1,34 @@
+---
+layout: compress
+---
+
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: " en" }}">
+    {%- include head.html -%}
+
+    <link href="/css/home.css" rel="stylesheet" type="text/css">
+
+    <body>
+
+        {%- include header.html -%}
+
+        <main class="page-content" aria-label="Content">
+            <div class="wrapper">
+                {{ content }}
+                <div class="posts">
+                    {% for post in site.posts %}
+                    <article class="post-item-home">
+                        <div class="article-title"><a class="post-link" href="{{ post.url | prepend: site.baseurl | prepend: site.url }}">{{ post.title }}</a></div>
+
+                        <span class="post-meta date-label">{{ post.date | date: "%b %d %Y" | upcase }}</span>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </main>
+
+        {%- include footer.html -%}
+
+    </body>
+
+</html>
