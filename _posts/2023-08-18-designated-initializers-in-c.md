@@ -1,3 +1,7 @@
+---
+title: Designated Initializers in C
+---
+
 # Designated Initializers in C
 
 I've been writing a lot of code in the C programming language lately, and I came across a strange looking syntax used to initialize structs. Honestly, I did not expect the C lang type system to have such an initialization syntax. It felt good :)
@@ -32,7 +36,7 @@ Point point1 = {
     };
 ```
 
-According to GCC: 
+According to GCC:
 
 > Standard C90 requires the elements of an initializer to appear in a fixed order, the same as the order of the elements in the array or structure being initialized.
 >
@@ -70,7 +74,7 @@ Array initialization can be more expressive when using designated initializers. 
 
 ```c
 
-// 1D 
+// 1D
 int array[2] = { [0] = 100, [1] = 101 };
 int array[2] = { 100, [1] = 101 };
 
@@ -78,7 +82,7 @@ int array[2] = { 100, [1] = 101 };
 int matrix[2][2] = {  [0][0] = 1, [0][1] = 1,
                       [1][0] = 1, [1][1] = 1 };  // much more readable
 int matrix[2][2] = {   { 0, 0},
-                       [1][0] = 1, [1][1] = 1   } 
+                       [1][0] = 1, [1][1] = 1   }
 ```
 
 **Struct**
@@ -87,7 +91,7 @@ int matrix[2][2] = {   { 0, 0},
 // defining the struct and declaring a variable at the same time
 struct box {
     int length;
-    int breadth; 
+    int breadth;
 } rect = { .length  =  100,
            .breadth =  50  };
 
@@ -103,10 +107,10 @@ typedef struct  {
 
 char *m = "sedan";
 Car ford = { .engine.capacity = 1483,
-             .engine.cylinders = 4, 
+             .engine.cylinders = 4,
              .model =  m,
-             .weight = 601 // performs an implicit cast 
-            }; 
+             .weight = 601 // performs an implicit cast
+            };
 ```
 
 **Union**
@@ -123,9 +127,9 @@ union A dummy = { .c = 99 }; // converts 99 to double
 
 ### Where can this be used ?
 
-An interesting and a not so obvious example is a multi-dimensional array of structs. 
+An interesting and a not so obvious example is a multi-dimensional array of structs.
 
-Consider this: you are writing a calculator program and you want to invoke the negation function when you encounter a `minus (-)` token in the prefix position and the subtraction function when you find it in an infix position. 
+Consider this: you are writing a calculator program and you want to invoke the negation function when you encounter a `minus (-)` token in the prefix position and the subtraction function when you find it in an infix position.
 
 A classic solution is to have an `nx3` table that holds function pointers in the first two columns and the precedence value of the arithmetic operator in the final column. Infact, this table is the outline of an implementation of Top Down Operator Precedence parsing.
 

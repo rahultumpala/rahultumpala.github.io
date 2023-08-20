@@ -1,3 +1,7 @@
+---
+title: First Blog Post
+---
+
 ## My First Blog Post
 
 Hi readers, I am Rahul Tumpala and this is my first blog post. The first of many and the start of something big.

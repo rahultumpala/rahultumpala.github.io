@@ -7,6 +7,7 @@ layout: compress
     {%- include head.html -%}
 
     <link href="/css/home.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/js/hash.js"></script>
 
     <body>
 
@@ -17,11 +18,18 @@ layout: compress
                 {{ content }}
                 <div class="posts">
                     {% for post in site.posts %}
-                    <article class="post-item-home">
-                        <div class="article-title"><a class="post-link" href="{{ post.url | prepend: site.baseurl | prepend: site.url }}">{{ post.title }}</a></div>
+                    <div class="post-wrapper">
+                        <article class="post-item-home">
+                            <div class="article-title"><a class="post-link" href="{{ post.url | prepend: site.baseurl | prepend: site.url }}">{{ post.title }}</a></div>
 
-                        <span class="post-meta date-label">{{ post.date | date: "%b %d %Y" | upcase }}</span>
-                    </article>
+                            <span class="post-meta-date-label">{{ post.date | date: "%b %d %Y" | upcase }}</span>
+                        </article>
+                        <div class="hash hash-{{forloop.index}}">
+                            <script>
+                                display( "{{ post.content | escape}}", "hash-{{ forloop.index }}" );
+                            </script>
+                        </div>
+                    </div>
                     {% endfor %}
                 </div>
             </div>
@@ -30,5 +38,4 @@ layout: compress
         {%- include footer.html -%}
 
     </body>
-
 </html>
