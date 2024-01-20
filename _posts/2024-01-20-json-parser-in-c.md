@@ -186,6 +186,7 @@ static Token *scanToken() {
         exit(74);
     }
 }
+
 ```
 
 > **fprintf()** is used to write characters to an output stream such as stdout or stderr, while **printf()** is used to write to stdout.
@@ -214,3 +215,288 @@ We **need** to use `malloc` here, we can't use just a designated initializer and
 ### Syntax Parsing
 
 Alright, now that we have our token stream, we can start analyzing it and putting the tokens into their respective structures.
+
+Idea: Ensure each token is present where it should be, as per the JSON Spec. Place tokens in the ObjectJson structure, hierarchically.
+
+Before that, let us define the required structures.
+
+```c
+typedef enum {
+    OBJ_STRING,
+    OBJ_ARRAY,
+    OBJ_JSON
+} ObjectType;
+
+typedef struct {
+    ObjectType type;
+    int length;
+    char *value;
+} ObjectString;
+
+typedef struct {
+    ObjectType type;
+    int length;
+    Value *start;
+} ObjectArray;
+
+typedef struct {
+    ObjectType type;
+    struct bst *htable;
+    Member *members;
+} ObjectJson;
+
+typedef struct {
+    ObjectType type;
+} Object;
+```
+
+`ObjectJSON` will contain the entire JSON object present in the file, and this will be returned after parsing is complete. `ObjectArray` will contain the array strucutre, and `ObjectString` is a generic type to contain a string present in the JSON Object. `ObjectType` enum contains the above three types.
+
+Before you begin to question why each struct has `ObjectType type;` at the beginning of their struct definition, let us understand how a pointer is converted into a struct in the C programming language.
+
+---
+
+#### void ptrs conversion to struct
+
+When you request memory using `malloc`, you do not get a pointer that is of the required type, you get a `void *` (a void pointer) instead. This void pointer is cast into a pointer to the required type. Why?
+
+It is true that you cannot cast a memory pointer into a struct pointer without defining the struct first (forward declarations are exceptions, but definition must occur within the translation unit, in the same way `static` restricts visibility and invocation scope to the current translation unit).
+
+It is also true that each struct has a definite member list, with types declared beforehand. This allows the C compiler to know which member occupies how much amount of memory, and at what position this member's memory begins.
+
+If you visualize memory to be a straight block of emptiness, then x amount from the beginning is occupied by the first member of the struct. This is how memory is laid out, and how typecasting also works.
+
+Ex: consider the following struct
+```c
+struct example {
+    int a;
+    long b;
+};
+
+struct example *ptr = (struct example*)malloc(sizeof(struct example));
+```
+Assuming a 64-bit arch, `int` is of 4bytes and `long` is of 8bytes.
+`sizeof(struct example)` returns 12bytes.
+
+Now `ptr` points to 12 bytes of emptiness, that is cast into a pointer to `struct example`. When you try to access the second member `b` with `ptr->b` the compiler will read 8bytes with an offset of 4bytes from the beginning, and cast those 8bytes into a `long` type.
+
+This is how it works. Pretty interesting stuff isn't it?!
+
+---
+
+Now, the significance of our slight detour lies in the members of our `ObjectJSON`, `ObjectArray` and `ObjectString`. At compile type, we do not know what the token stream might represent, and so we need to classify the token stream into different structs at runtime, and have a mechanism to distinguish between different structs when all we have is a void pointer.
+
+All the three structs have their first member as `ObjectType` enum. In the C language, an enum is by default, an int, again 4bytes. This implies:
+
+```c
+    OBJ_STRING = 1
+    OBJ_ARRAY  = 2
+    OBJ_JSON   = 3
+```
+
+Hence, when we have a void pointer `ptr` that we expect to be an object, we need to cast it into a pointer to `struct Object`, whose only member is an `ObjectType type` enum. Comparing the value of type with the values of `OBJ_*`, we find out what the block of memory represents. Depending on the value of the type member, we cast the block of memory, pointed to, by `ptr`, into a pointer to the respective struct. To solidify your understanding, read the following example.
+
+```c
+void *ptr = some_method_invocation();
+// expecting ptr to point to struct Object and not NULL
+Object *object_ptr = (Object *) ptr;
+switch(object_ptr->type){
+    case OBJ_STRING:
+        ObjectString *str = (ObjectString *) object_ptr;
+        break;
+    case OBJ_ARRAY:
+        ObjectArray *array = (ObjectArray *) object_ptr;
+        break;
+    default:
+        // throw an error or take appropriate action
+}
+```
+
+This dual type casting process results in achieving **_type check at runtime_**, and this is exactly what we need. Powerful stuff indeed!
+
+Let's move on to the fun (parsing) part.
+
+```c
+ObjectJson *parseJSON(char *path) {
+    lex(path);
+    // to set the first token in parser.current
+    advance();
+    ObjectJson *json = object();
+    create_bst(json);
+    return json;
+}
+```
+
+`parseJSON()` will be called with the filepath, and our entry point into the parsing phase is the `object()` method.
+
+`check(type)` and `expect(type)` are two methods that help us in determining our next steps. If you recall, JSON grammar falls under context-free-grammar and can contains recursive relations to its own rules, hence next steps can only be determined using lookahead. The two util functions help us with a lookahead of 1 token at a time, and that is all we need.
+
+`check(type)` tells us if the next tokens tokenType matches with `type`.
+`expect(type)` throws an error if the next token isn't what is specified by the grammar, and advances if it is.
+
+```c
+static ObjectJson *object() {
+    if (!check(LBRACE))
+        return NULL;
+
+    ObjectJson *json = (ObjectJson *)malloc(sizeof(ObjectJson));
+    json->type = OBJ_JSON;
+    json->htable = NULL;
+
+    expect(LBRACE, "Expect '{' at the beginning.");
+    if (check(RBRACE))
+        json->members = NULL;
+    else
+        json->members = members();
+    expect(RBRACE, "Expect '}' after members.");
+    // create_bst(json);
+    return json;
+}
+```
+Ignore the `htable` and `create_bst(json)` references for now, we will circle back to them after the parsing phase is complete.
+
+1. An Object contains members. Members are spearated with _COMMA_\s.
+
+```c
+static Member *members() {
+    Member *member = (Member *)malloc(sizeof(Member));
+    member->next = NULL;
+    pair(member);
+    while (match(COMMA)) {
+        member->next = members();
+    }
+    return member;
+}
+```
+
+>  `match(type)` is another helper function, similar to `expect(type)`, except it doesn't throw an error and exit when the next tokens type isn't `type`.
+
+In `struct ObjectJSON` we have `Member *members;`. This implies, we are using a singly linked list to store the members of our current JSON object, after parsing. Each member's next pointer points to neighbouring member, if there is one, else is NULL.
+
+2. A member contains pairs.
+3. A pair contains a key(always a string) and a value
+
+```c
+static void pair(Member *member) {
+    expect(STRING, "Expect string as key in a pair.");
+    member->key = *parser.previous;
+    expect(COLON, "Expect ':' between key and value in a pair.");
+    member->value = value();
+}
+```
+
+Technically, each key is a token with tokenType as `STRING`, and hence `member->key` naturally points to a token, present at the location pointed to, by `parser.previous`. (Too many redirections..beautifully annoying!)
+
+To keep this already long post from growing indefinitely, lets stick to understanding the parsing logic behing `OBJ_STRING` and `OBJ_ARRAY` (you are welcome to read the entire source code for all types, including terminal symbols, in my [gitub repo](https://github.com/rahultumpala/blason)).
+
+4. A value can contain a terminal symbol, an array or another object.
+
+Now, let us define `struct Value`
+
+```c
+typedef enum {
+    VAL_BOOL,
+    VAL_NIL,
+    VAL_NUMBER,
+    VAL_OBJ,
+} ValueType;
+
+// tagged union
+struct Value {
+    ValueType type;
+    union {
+        bool boolean;
+        double number;
+        Object *obj;
+    } as;
+    struct Value *next;
+};
+```
+
+A Tagged Union is a struct that encapsulates a C `union` along with a member, often used to identify the contents of the C union embedded within. To refresh your memory, a C `struct` can contain any number of members of various types, however a C `union`  whose definition contains N members, can contain only 1 member inside itself, but the memory occupied by the union is equal to the largest memory occupied by any of its N members. Don't worry if this feels confusing, it is simple once you get the idea. Its a beautiful concept.
+
+In the current context, our tagged union `struct Value` contains a `ValueType type` member, used to identify the contents of the `as` union. The `as` union can contain either of `boolean`, `number`, `*obj` members, but the memory footprint of this `as` union is equal to `sizeof(double)` which is 8bytes(assuming a pointer also occupies 8bytes of memory). A tagged union is one of the many optimizations often used in the world of implementing dynamic type checking in C, I will write a detailed post on a couple of techniques, soon.
+
+Values are also stored as a linked list in the array object.
+
+```c
+static Value *value() {
+    switch (parser.current->type) {
+    case STRING: {
+        ObjectString *string = (ObjectString *)malloc(sizeof(ObjectString));
+        string->type = OBJ_STRING;
+        string->length = parser.current->length;
+        string->value = parser.current->value;
+
+        Value *value = (Value *)malloc(sizeof(Value));
+        value->type = VAL_OBJ;
+        value->as.obj = (Object *)string;
+
+        advance();
+        return value;
+        break;
+    }
+    case LSQUARE: {
+        ObjectArray *arrayObj = array();
+
+        Value *value = (Value *)malloc(sizeof(Value));
+        value->type = VAL_OBJ;
+        value->as.obj = (Object *)arrayObj;
+
+        return value;
+        break;
+    }
+}
+```
+
+5. An array contains element(s)
+6. An element contains value(s)
+
+Handling when the current token is a string is pretty straightforward, create an `ObjectString` and you're done. Recursive evaluation comes into picture when creating an array since any element can be present inside.
+
+```c
+static ObjectArray *array() {
+    expect(LSQUARE, "Expect '[' at the beginning of an array.");
+    ObjectArray *arrayObj = (ObjectArray *)malloc(sizeof(ObjectArray));
+    arrayObj->type = OBJ_ARRAY;
+    if (check(RSQUARE))
+        arrayObj->start = NULL;
+    else
+        arrayObj->start = elements();
+    expect(RSQUARE, "Expect '[' at the beginning of an array.");
+    return arrayObj;
+}
+```
+
+An array contains elements, and elements themselves are values separated by _COMMA_\s.
+
+```c
+static Value *elements() {
+    Value *start = value();
+    Value *end = start;
+    while (match(COMMA)) {
+        end->next = value();
+        end = end->next;
+    }
+    if (end != NULL)
+        end->next = NULL;
+    return start;
+}
+```
+
+The flow of parsing an array can be summarized as follows:
+
+ObjectJSON &rarr; Member &rarr; Pair &rarr; Value &rarr; ObjectArray &rarr; elements() &rarr; Value(repeat from Value when terminated with a COMMA)
+
+Interesting!
+
+If the file is as expected, then this ends our syntax analysis, parsing phase.
+
+Pat yourself on the back if you made it till here. If you've followed everything until here, then you are equipped with the knowledge of writing a JSON parser by yourself. Write yourself a utility to print a formatted JSON Object and voila, you successfully wrote your very own JSON formatter. (Or you can use the [print utility](https://github.com/rahultumpala/blason/tree/master/src/libjson) I wrote).
+
+This isn't the end though.
+
+Now we delve into the world of manipulation of the JSON Object we just created, including retrieval, insertion, updates and deleting keys (and associated values) of the JSON Object. I'm almost certain no one uses JSON Objects only to format them. Lets begin!
+
+## Object Manipulation
+
