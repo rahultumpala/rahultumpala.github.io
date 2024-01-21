@@ -8,11 +8,19 @@ This post is long overdue.
 
 Grab a coffee, this is an in-depth article and will take a while.
 
-Newly equipped with the knowledge of writing a parser and a compiler for the makeshift programming language called [lox](https://craftinginterpreters.com/the-lox-language.html), I was determined to do something on my own, without relying on any tutorials. I decided to start with the simplest of all, a JSON Parser. I completed writing a JSON Library called **_blason_** in the beginning of December 2023, this blog is a walkthrough of the incredible journey.
+Newly equipped with the knowledge of writing a parser and a [compiler](https://github.com/rahultumpala/clox) for the makeshift programming language called [lox](https://craftinginterpreters.com/the-lox-language.html), I was determined to do something on my own, without relying on any tutorials. I decided to start with the simplest of all, a JSON Parser. I completed writing a JSON Library called **_blason_** in the beginning of December 2023, this blog is a walkthrough of the incredible journey.
 
 _JSON (JavaScript Object Notation)_
 
 _JSON is omnipresent - me (2023)_
+
+**Contents:**
+- [Grammar](#grammar)
+- [Parser](#parser)
+  - [Lexer](#lexer)
+  - [Syntax Parsing](#syntax-parsing)
+    - [void ptrs conversion to struct](#void-ptrs-conversion-to-struct)
+- [Object Manipulation](#object-manipulation)
 
 ## Grammar
 
@@ -500,3 +508,87 @@ Now we delve into the world of manipulation of the JSON Object we just created, 
 
 ## Object Manipulation
 
+The top level `struct ObjectJson` which we return after completion of parsing, stores a pointer to members. This represents a linked list, and thus, when a search is performed, we will have to manually traverse this list and compare the key of each member with the search key to find a match. This is O(N).
+
+While O(N) Linear time is good, an improvement can be made. The JSON Specifications mentions that every key must be a string. We can take advantage of this fact, and build an efficient mechanism to search strings in O(Log(N)) time using String hashing.
+
+Algorithm:
+
+1. Every string can be hashed, and an integral hash value can be calculated using a hash function. You can use FNV-1a (most commonly used) or just write one yourself like I did. Take 31 as the prime and build a string hash, do not use any module, let the hash overflow in a 64 bit space, this ensures we can store 18 quadrillion values in our JSON Object given there is sufficient memory).
+2. Now that we have an integral hash value, we need to store it somewhere that enables fast lookups, like a Set or a Binary Search Tree (BST). I chose to implement a BST since it can grow dynamically without copying values, which is what we might need to do when we create a set with a fixed size and an occupancy threshold. We will ignore rebalancing the tree for the time being.
+3. Create a BST Node and insert it to the existing BST. Ensure each BST Node contains reference to the value it stores, and the main ObjectJson struct as well. Point the  `struct bst *htable;` member to this existing BST, so that search can be performed on this htable.
+4. When search is invoked, hash the key being searched and perform a lookup on the BST pointed to, by  `*htable;` of the ObjectJson on which search is invoked.
+5. Return the Value to which the BST Node points to, if the key exists.
+
+Our `struct bst` will look like:
+
+```c
+struct bst {
+    long long hash;
+    Value *value;
+    bst *left;
+    bst *right;
+};
+```
+
+Alright, I told you we will cirlce back to the `create_bst(json)` method. Here it is now:
+
+```c
+void create_bst(ObjectJson *json) {
+    if (json->htable != NULL)
+        return;
+    bst *ROOT = __create_node();
+    Member *cur = json->members;
+    if (cur == NULL) {
+        json->htable = NULL;
+        return;
+    }
+    while (cur != NULL) {
+        // key contains double quote chars as well
+        // this is not desirable as double quote needs to be excluded when calculating hash
+        Token temp = cur->key;
+        temp.length -= 2;
+        if (temp.length > 0) {
+            temp.value++;
+        }
+        unsigned long long hash = create_hash(temp.value, temp.length);
+        insert_bst(ROOT, hash, cur->value);
+        if (cur->value->type == VAL_OBJ) {
+            Object *obj = (Object *)cur->value->as.obj;
+            if (obj->type == OBJ_JSON)
+                create_bst((ObjectJson *)obj);
+        }
+        cur = cur->next;
+    }
+    // todo: rebalance before assigning
+    json->htable = ROOT;
+}
+```
+
+This method is invoked **ON** `ObjectJson` **after** parsing is completed. This is a one time activity and will initialize the htable pointer with the hashes of all keys in the ObjectJson. Note that, each nested ObjectJson will also contain a BST htable, specific to that nested object only. This implies, any nested JSON objects also support hash based retrievals and updates.
+
+Our `create_hash()` methods is as follows
+
+```c
+unsigned long long create_hash(char *key, int length) {
+    unsigned long long p = 31;
+    unsigned long long hash = 0;
+    for (int i = 0; i < length; i++) {
+        // if long then let overflow, it is equivalent to using a 2^64 module
+        hash += p * (key[i] - 'a' + 1);
+        p *= p;
+    }
+    // printf("hash %lld\n", hash);
+    return hash;
+}
+```
+
+Simple, isn't it?!
+
+The procedure for fetching and insertion are pretty straightforward, now that you're equipped with the knowledge of how we perform object manipulation.
+
+It has been a really long article and so I'm going to end it here. Feel free to browse the [source code](https://github.com/rahultumpala/blason). If you're interesting in seeing the _blason_ code in action: clone the repository, cd into it and execute the make command. Change a few lines in `main.c` and see how things react. Play with it at your own will.
+
+Thank you for reading till the end :)
+
+_~rahultumpala_
