@@ -3,7 +3,7 @@ layout: compress
 ---
 
 <!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: " en" }}">
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
     {%- include head.html -%}
 
     <link href="/css/home.css" rel="stylesheet" type="text/css">
@@ -26,7 +26,7 @@ layout: compress
                         </article>
                         <div class="hash hash-{{forloop.index}}">
                             <script>
-                                display( "{{ post.content | escape}}", "hash-{{ forloop.index }}" );
+                                display("{{ post.content | escape}}", "hash-{{ forloop.index }}");
                             </script>
                         </div>
                     </div>
