@@ -199,6 +199,6 @@ Single Threaded Sort duration : 69369 milliseconds
 MultiThreaded Sort duration : 36674 milliseconds
 ```
 
-The source code for this post is available [here](../source_code/multithreaded_merge_sort/)
+The source code for this post: [Main.java](../../source_code/multithreaded_merge_sort/Main.java) & [MergeSort.java](../../source_code/multithreaded_merge_sort/MergeSort.java)
 
 _~rahultumpala_
