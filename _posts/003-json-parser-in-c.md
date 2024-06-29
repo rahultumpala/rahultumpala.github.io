@@ -1,8 +1,5 @@
----
-title: Writing a JSON Parser in C
----
-
-# Writing a JSON Parser in C
+#  Writing a JSON Parser in C
+January 20, 2024
 
 This post is long overdue.
 

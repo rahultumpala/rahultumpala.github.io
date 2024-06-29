@@ -1,41 +1,22 @@
----
-layout: compress
----
-
 <!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
-    {%- include head.html -%}
+<html lang="en">
+  __css_placeholder__
 
-    <link href="/css/home.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="/js/hash.js"></script>
+  <script type="text/javascript" src="assets/js/hash.js"></script>
 
-    <body>
+  <body>
+    __header__
 
-        {%- include header.html -%}
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        __home_content__
+        <div class="posts">
+          <!--  _post_links_  has to be on separate lines for sed -->
+          __post_links__
+        </div>
+      </div>
+    </main>
 
-        <main class="page-content" aria-label="Content">
-            <div class="wrapper">
-                {{ content }}
-                <div class="posts">
-                    {% for post in site.posts %}
-                    <div class="post-wrapper">
-                        <article class="post-item-home">
-                            <div class="article-title"><a class="post-link" href="{{ post.url | prepend: site.baseurl | prepend: site.url }}">{{ post.title }}</a></div>
-
-                            <span class="post-meta-date-label">{{ post.date | date: "%b %d %Y" | upcase }}</span>
-                        </article>
-                        <div class="hash hash-{{forloop.index}}">
-                            <script>
-                                display("{{ post.content | escape}}", "hash-{{ forloop.index }}");
-                            </script>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </main>
-
-        {%- include footer.html -%}
-
-    </body>
+    __footer__
+  </body>
 </html>

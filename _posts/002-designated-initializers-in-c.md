@@ -1,8 +1,5 @@
----
-title: Designated Initializers in C
----
-
-# Designated Initializers in C
+#  Designated Initializers in C
+August 18, 2023
 
 I've been writing a lot of code in the C programming language lately, and I came across a strange looking syntax used to initialize structs. Honestly, I did not expect the C lang type system to have such an initialization syntax. It felt good :)
 

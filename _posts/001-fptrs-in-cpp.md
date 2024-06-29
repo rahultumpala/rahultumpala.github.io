@@ -1,8 +1,5 @@
----
-title: Function Pointers in C++
----
-
 # Function pointers in C++
+May 17, 2023
 
 Hello there,
 

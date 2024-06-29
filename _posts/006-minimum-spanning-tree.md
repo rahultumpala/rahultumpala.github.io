@@ -1,6 +1,5 @@
----
-title: Minimum Spanning Trees - Why UnionFind?
----
+#  Minimum Spanning Trees - Why UnionFind?
+May 25, 2024
 
 Minimum Spanning Trees are beautiful. In this post I'd like to talk about Kruskal's algorithm used to build an MST and why being greedy doesn't work.
 
