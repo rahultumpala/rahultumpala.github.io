@@ -31,7 +31,7 @@ function replace_footer() {
 function generate_posts() {
     dir="_posts"
     posts=$(ls $dir/)     #generate array of file names
-    mkdir out 2>/dev/null #ignore warning msgs and redirect stderr to /dev/null
+    mkdir _site 2>/dev/null #ignore warning msgs and redirect stderr to /dev/null
     cp -r assets _site/
 
     for md_file in $posts; do
@@ -103,6 +103,7 @@ function generate_home() {
     touch post_links.html
     chmod 777 post_links.html
 
+    index=0
     for md_file in $posts; do
         # get title from first line
         title=$(awk "NR == 1" _posts/$md_file)
@@ -113,6 +114,13 @@ function generate_home() {
         page_dir=${page_dir/.md/} #replace .md with empty char
 
         sed -e "s/__post_hyperlink__/$page_dir/" -e "s/__title__/$title/" _layouts/home-post-link.html >temp_link
+
+        escaped_content=$(< _posts/$md_file)
+        # replace non alpha characters to pass into hash function
+        escaped_content=`echo $escaped_content | sed "s/[^[:alpha:]]//g"` 
+        sed "s/__content__/$escaped_content/" -i temp_link
+        sed "s/__index__/$index/" -i temp_link # replace index for hash div in homepage
+        index=$((index+=1)) 
 
         date_string=$(awk "NR == 2" _posts/$md_file)
         date=$(date --date="$date_string" "+%d %b %Y")
