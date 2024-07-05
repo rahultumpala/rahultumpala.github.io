@@ -38,7 +38,7 @@ function generate_posts() {
 
         # get title from first line
         title=$(awk 'NR == 1' _posts/$md_file)
-        title=${title:2}
+        title=${title:2} # ignore the # character
 
         page_dir=${md_file:4}     # substring to ignore the prefixed digits
         page_dir=${page_dir/.md/} #replace .md with empty char
@@ -135,7 +135,6 @@ function generate_home() {
         }" -i _site/index.html
 
     replace_css_placeholder _site/index.html -i
-    # TODO: generate the hash to display as decor in homepage
 }
 
 generate_base_html
