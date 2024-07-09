@@ -88,7 +88,76 @@ You may argue that `CountTrigger` is built for this same purpose, to window elem
 - Using a `TimeWindow` requires us to specify a predefined time interval, not exactly what I want.
 
 At this point, using windows didn't feel right. I started looking more deeply into process functions. To keep both implementations consistent, I wanted a process function that could:
-- Maintain elements in process function state until the threshold is reached.
+- Maintain elements in process function state until threshold is reached.
 - Register a timer that flushes the window when timer ends.
 
 A `KeyedProcessFunction` aptly fits this criteria. I added a dummy key to my data stream to make sure all elements are part of the same window and manually handled state too. A processing time timer can be registered using the `context.timerService().registerProcessingTimeTimer(INTERVAL)` method. This is basically our trigger part.
+
+This implementation using `KeyedProcessFunction` is sufficient...if your job doesn't have tables in it. Our requirement had the following ordering:
+
+1. Consume events from upstream systems and generate entities & put metadata into in-memory tables.
+2. Batch these generated entities.
+3. Perform transformations on batched entities & put data into in-memory tables.
+4. Read from in-memory tables, perform joins and flush data to db.
+
+While testing the solution having a `KeyedProcessFunction` I found that step 4 executes before steps 2, 3 are executed. Digging deep, I found that a `KeyedProcessFunction` generates a `KeyedStream` which is different from the regular `DataStream` where `KeyedStream` has been hash partitioned having all the entities with the same key in the same partition.
+
+This disconnect didn't maintain the order of execution. It worked as expected in the case of unbounded streams because we didn't use tables in that scenario. This meant we'll have to figure out another solution of bounded streams that rely on the order of execution.
+
+-------------
+
+## Custom Batching Function
+
+Now that we know how state can be used and how timers can be leveraged to work with our set of constraints, writing custom batching logic was simple.
+
+### Bounded Streams
+
+`CheckpointedFunction`s in Flink provide an interface to write custom state initialization & snapshot logic, which means extending implementing this interface guarantees that `initializeState` is called *once* with an initialization context before entities start flowing into it.
+
+```java
+@Override
+  public void initializeState(FunctionInitializationContext functionInitializationContext)
+      throws Exception {
+    this.listStateDescriptor =
+        new ListStateDescriptor<>("EntityState", Entity.class);
+    this.context = functionInitializationContext; // static
+  }
+```
+
+With the help of `ListStateDescriptor<Entity>` we can store the entities in memory until the threshold is reached.
+
+In case of bounded streams there is a known end that can be used to determine if the in memory list should be flushed or not. Assuming exactly once processing semantics, here is an outline of the algorithm to be used in `processElement`:
+
+```text
+public void processElement(<> entity, <> ctx, <> collector) {
+
+    Check if entity is the last element of the stream
+    --- YES
+       a. Add to state
+       b. Generate Batch Entity from state
+       c. Purge state
+       d. Collect Batch Entity
+    --- NO
+       a. Add to state
+       b. Check if threshold is reached
+       --- YES
+          a. Generate Batch Entity from state
+          b. Purge state
+          c. Collect Batch Entity
+       --- NO
+          a. Add to State
+
+}
+```
+
+That's it! It's simple.
+
+Accessing the state can be done through `context` and the state descriptor we stored earlier
+
+```java
+ListState<Entity> listState = this.context.getOperatorStateStore().getListState(listStateDescriptor)
+```
+
+Fetching the number of elements stored in state is an O(N) operation, so you can use another `ValueStateDescriptor` for keeping track of the count.
+
+There is one caveat here though, this solution while feasible, works well for Bounded Stream only in the case where your process function slots are on the same Task Manager. While state is maintained across all task managers, the static variables are limited to the task manager JVM and are not replicated across all TMs. In our scenario this was acceptable.
