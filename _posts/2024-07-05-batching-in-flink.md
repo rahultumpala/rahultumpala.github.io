@@ -161,3 +161,73 @@ ListState<Entity> listState = this.context.getOperatorStateStore().getListState(
 Fetching the number of elements stored in state is an O(N) operation, so you can use another `ValueStateDescriptor` for keeping track of the count.
 
 There is one caveat here though, this solution while feasible, works well for Bounded Stream only in the case where your process function slots are on the same Task Manager. While state is maintained across all task managers, the static variables are limited to the task manager JVM and are not replicated across all TMs. In our scenario this was acceptable.
+
+### Unbounded Streams
+
+For Unbounded streams the solution utilizing `KeyedProcessFunction` is sufficient.
+
+We need to create a process function that extends a `KeyedProcessFunction<KEY, IN, OUT>`.
+
+Here `KEY` represents the java class of the key upon which partitioning will occur. `IN` and `OUT` represent the java classes of incoming and outgoing entities.
+
+In this function there are no explicit methods that help in initializing state and setting up basic bookkeeping, but the `open` method can be overriden to setup initial state.
+
+```java
+@Override
+  public void open(Configuration parameters) throws Exception {
+    super.open(parameters);
+    this.listStateDescriptor = new ListStateDescriptor<>("EntityState", Entity.class);
+    interval = 120; // 120 secs; 2 minutes
+    isWaitingForNewElements = false;
+  }
+```
+
+As usual, we create a new `ListStateDescriptor` that will store our elements in memory. Additionally, `isWaitingForNewElements` is a static variable used to determine whether the existing in memory state should be flushed before reaching the threshold at the end of interval.
+
+There are two cases here:
+1. Stored entities in state reach threshold before interval
+2. Stored entities don't reach threshold before interval
+
+In the first case we perform the batching computation and purge state, in the second case however, there is a waiting period of another `interval` duration in hope of reaching the threshold. This is done to maintain the batching guarantees while still dealing with unbounded streams. `isWaitingForNewElements` will be set to `true` when the current interval is complete and state still doesn't have enough elements, when the next interval is finished state will be batched even if threshold isn't reached and the flag will be reset.
+
+To set a timer that will be triggered after an `interval` duration:
+
+```text
+@Override
+  public void onTimer(
+      long timestamp,
+      KeyedProcessFunction<KEY, IN, OUT>.OnTimerContext ctx,
+      Collector<OUT> out)
+      throws Exception {
+    
+     Check if threshold is reached
+     --- YES
+        a. Generate Batch Entity from state
+        b. Purge state
+        c. Collect Batch Entity
+     --- NO
+        a. Check if wait flag is set
+        ---- YES
+            a. Generate Batch Entity from state
+            b. Purge state
+            c. Collect Batch Entity
+        ---- NO
+            a. set isWaitingForNewElements = true
+
+  }
+```
+
+and the `processElement` method will only add input entity to state and register a processing time timer to fire after `interval` duration.
+
+```java
+long currentTimeMillis = System.currentTimeMillis();
+// register new timer
+context.timerService().registerProcessingTimeTimer(currentTimeMillis + interval * 1000);
+```
+
+It is possible to guarantee that no elements will be missed while waiting for threshold to fire with a bit of bookkeeping.
+
+
+That's it for this post. I hope I've shared something valuable to you.
+
+_~rahultumpala_
