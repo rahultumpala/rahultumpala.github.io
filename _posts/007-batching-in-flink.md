@@ -1,8 +1,5 @@
----
-title: Batching Elements in Apache Flink
----
-
 # Batching Elements in Apache Flink
+July 05, 2024
 
 I've been using Apache Flink at work for almost two years now. During this period I've had the oppportunity to learn a lot about this amazing framework. In this post I'd like to shed light on how you can batch / group elements between process functions in Apache Flink. I'll do this by taking a one of my work pieces as an example, give you an idea of the conventional solutions, why they work / didn't work in my case and how I wrote my own implementation. Let's get started.
 
@@ -12,7 +9,7 @@ For a feature I was implementing, I had to build a mechanism that performs the f
 1. Hold a certain number of entities in memory.
 2. Batch the entities into a single entity when a certain threshold is reached and push to downstream process functions.
 3. If the threshold is not reached within a said interval then batch the existing entities into one and push downstream.
-4. Application uses the Flink Table API and hence the solution must work in conjunction with tables. 
+4. Application uses the Flink Table API and hence the solution must work in conjunction with tables.
 
 --------------
 
@@ -66,7 +63,7 @@ Both implementations should stay consistent, to avoid maintenance overhead.
 
 ### A bit on State in Apache Flink
 
-Each `ProcessFunction` is provided access to a process function `Context`. This context can be used to manage state specific to that process function, meaning this state is isolated from states managed by other process functions in your job graph. Managing global state which is accessible through all process functions is possible through `RuntimeContext`. 
+Each `ProcessFunction` is provided access to a process function `Context`. This context can be used to manage state specific to that process function, meaning this state is isolated from states managed by other process functions in your job graph. Managing global state which is accessible through all process functions is possible through `RuntimeContext`.
 
 ```java
 
@@ -82,7 +79,7 @@ Now, context is used to manage state but the actual content in your state is not
 
 If you observe closely, all the window operations are tightly coupled with time, be it `eventTime` or `processingTime` and not on the count of elements. Although time and timers can be used to our advantage to act on the number of elements flowing through a process function rather than the time units passing, it felt like a hack.
 
-You may argue that `CountTrigger` is built for this same purpose, to window elements using count rather than time. It's true, but `CountTrigger` requires a window to act upon and this window can either be a `GlobalWindow` or a `TimeWindow`. 
+You may argue that `CountTrigger` is built for this same purpose, to window elements using count rather than time. It's true, but `CountTrigger` requires a window to act upon and this window can either be a `GlobalWindow` or a `TimeWindow`.
 
 - Using a `GlobalWindow` meant upon each trigger will perform the computation on the entire window, from the beginning of the stream till the end(if any). Our scenario requires us to act only on the window size upto the given threshold, so we'll have to maintain state to know how many entities to skip.
 - Using a `TimeWindow` requires us to specify a predefined time interval, not exactly what I want.
@@ -199,7 +196,7 @@ To set a timer that will be triggered after an `interval` duration:
       KeyedProcessFunction<KEY, IN, OUT>.OnTimerContext ctx,
       Collector<OUT> out)
       throws Exception {
-    
+
      Check if threshold is reached
      --- YES
         a. Generate Batch Entity from state

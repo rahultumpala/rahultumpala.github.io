@@ -1,3 +1,5 @@
+#!/bin/bash
+
 function replace_css_placeholder() {
     css=""
     css_tag="<link rel=\"stylesheet\" type=\"text/css\" href=\"../assets/css/__file__\">"
@@ -117,10 +119,10 @@ function generate_home() {
 
         escaped_content=$(< _posts/$md_file)
         # replace non alpha characters to pass into hash function
-        escaped_content=`echo $escaped_content | sed "s/[^[:alpha:]]//g"` 
+        escaped_content=`echo $escaped_content | sed "s/[^[:alpha:]]//g"`
         sed "s/__content__/$escaped_content/" -i temp_link
         sed "s/__index__/$index/" -i temp_link # replace index for hash div in homepage
-        index=$((index+=1)) 
+        index=$((index+=1))
 
         date_string=$(awk "NR == 2" _posts/$md_file)
         date=$(date --date="$date_string" "+%d %b %Y")
