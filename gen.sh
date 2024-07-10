@@ -30,6 +30,22 @@ function replace_footer() {
     }" -i $1
 }
 
+function generate_seo() {
+    rel_link=$1
+    file="_site/$1"
+    title=$2
+    desc=$3
+
+    sed "/__seo__/{
+      s/__seo__//g
+      r _layouts/seo.html
+    }" -i $file
+
+    sed "s/__title__/$title/" -i $file
+    sed "s|__rel_link__|$rel_link|" -i $file
+    sed "s/__short_description__/$desc/" -i $file
+}
+
 function generate_posts() {
     dir="_posts"
     posts=$(ls $dir/)     #generate array of file names
@@ -42,13 +58,15 @@ function generate_posts() {
         title=$(awk 'NR == 1' _posts/$md_file)
         title=${title:2} # ignore the # character
 
+        seo_desc=$(awk 'NR == 3' _posts/$md_file) # get seo description from 3rd line
+
         page_dir=${md_file:4}     # substring to ignore the prefixed digits
         page_dir=${page_dir/.md/} #replace .md with empty char
         out_file="index.html"
         echo generating $md_file
 
-        # skip first line and write everything else to temp
-        awk "NR > 1" $dir/$md_file >temp
+        # skip first & third lines and write everything else to temp
+        awk "NR > 1 && NR != 3" _posts/$md_file >temp
         # generate html of post from markdown file
         lowdown temp -thtml --html-no-escapehtml --html-no-skiphtml -o content.html
         rm temp
@@ -77,13 +95,11 @@ function generate_posts() {
 
         mv _site/$out_file _site/$page_dir
 
-        # TODO: generate seo tag for each post - use jekyll seo tag as reference
+        # generate seo tag for each post - use jekyll seo tag as reference
+        generate_seo "$page_dir/index.html" "$title" "$seo_desc"
+
         # TODO: add google analytics tag if env is prodution, add env tag in github actions
     done
-}
-
-function generate_date() {
-    echo ""
 }
 
 function generate_home() {

@@ -1,5 +1,6 @@
 # Batching Elements in Apache Flink
 July 05, 2024
+An intro to custom batching methodologies in Apache Flink.
 
 I've been using Apache Flink at work for almost two years now. During this period I've had the oppportunity to learn a lot about this amazing framework. In this post I'd like to shed light on how you can batch / group elements between process functions in Apache Flink. I'll do this by taking a one of my work pieces as an example, give you an idea of the conventional solutions, why they work / didn't work in my case and how I wrote my own implementation. Let's get started.
 

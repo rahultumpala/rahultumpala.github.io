@@ -1,5 +1,6 @@
 # Function pointers in C++
 May 17, 2023
+Function pointers are beautiful. Demystify the complex syntax with me.
 
 Hello there,
 

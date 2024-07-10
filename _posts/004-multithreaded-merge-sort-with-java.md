@@ -1,6 +1,6 @@
 # Multithreaded Merge Sort with Java
-
 March 10, 2024
+understand Multithreading in Java with merge sort.
 
 Hello there, it's been some time since my last post. I've been busy with work. Being busy with work is good too, I got the chance to play with multi threading.
 
