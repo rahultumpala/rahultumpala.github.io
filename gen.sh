@@ -35,6 +35,7 @@ function generate_seo() {
     file="_site/$1"
     title=$2
     desc=$3
+    published_date=$4
 
     sed "/__seo__/{
       s/__seo__//g
@@ -44,6 +45,7 @@ function generate_seo() {
     sed "s/__title__/$title/" -i $file
     sed "s|__rel_link__|$rel_link|" -i $file
     sed "s/__short_description__/$desc/" -i $file
+    sed "s/__published_date__/$published_date/" -i $file
 }
 
 function generate_posts() {
@@ -96,7 +98,9 @@ function generate_posts() {
         mv _site/$out_file _site/$page_dir
 
         # generate seo tag for each post - use jekyll seo tag as reference
-        generate_seo "$page_dir/index.html" "$title" "$seo_desc"
+        date_string=$(awk "NR == 2" _posts/$md_file)
+        published_date=$(date --date="$date_string" -Iseconds)
+        generate_seo "$page_dir/index.html" "$title" "$seo_desc" "$published_date"
 
         # TODO: add google analytics tag if env is prodution, add env tag in github actions
     done
