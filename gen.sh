@@ -131,6 +131,14 @@ function generate_home() {
         title=$(awk "NR == 1" _posts/$md_file)
         title=${title:2}
 
+        date_string=$(awk "NR == 2" _posts/$md_file)
+        date=$(date --date="$date_string" "+%d %b %Y")
+        year=$(date --date="$date_string" "+%Y")
+
+        mkdir _site/$year 2>/dev/null # create year dir if not exists, ignore already created errors
+        # for backwards compatibility, already shared links with /year/slug shouldn't break
+        cp -r _site/$page_dir _site/$year/
+
         # generate html of post from markdown file
         page_dir=${md_file:4}     # substring to ignore the prefixed digits
         page_dir=${page_dir/.md/} #replace .md with empty char
@@ -143,9 +151,6 @@ function generate_home() {
         sed "s/__content__/$escaped_content/" -i temp_link
         sed "s/__index__/$index/" -i temp_link # replace index for hash div in homepage
         index=$((index+=1))
-
-        date_string=$(awk "NR == 2" _posts/$md_file)
-        date=$(date --date="$date_string" "+%d %b %Y")
 
         sed "s/__date__/$date/" temp_link >>post_links.html
         rm temp_link
