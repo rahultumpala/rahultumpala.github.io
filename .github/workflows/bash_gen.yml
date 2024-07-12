@@ -1,5 +1,5 @@
 # Workflow for generating site and pushing to GitHub Pages
-name: Deploy static content to Pages
+name: Site Generation with Bash
 
 on:
   # Runs on pushes targeting the default branch
