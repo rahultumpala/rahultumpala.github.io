@@ -12,8 +12,22 @@ function replace_css_placeholder() {
     sed -e "s|__css_placeholder__|$css|" $1 $2
 }
 
+function google_analytics() {
+    sed  "/__google_analytics__/{
+        s/__google_analytics__//
+        r _includes/google-analytics.html
+    }" -i post.html
+}
+
 function generate_base_html() {
     replace_css_placeholder _layouts/base.html >post.html
+    if [[ -z "${DEPLOY_ENV}" ]]; then
+        # since DEPLOy_ENV isn't set
+        sed "s/__google_analytics__//" -i post.html
+    else 
+        # need to set DEPLOY_ENV in github actions
+        google_analytics
+    fi
 }
 
 function replace_header() {
