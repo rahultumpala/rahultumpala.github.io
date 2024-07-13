@@ -33,8 +33,10 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      - name: Generate Site
-        run: bash gen.sh
+      - name: Download Lowdown
+        run: sudo apt-get -y install lowdown
+      - name: Generate Site with DEPLOY_ENV=PROD
+        run: export DEPLOY_ENV=PROD && bash gen.sh
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
