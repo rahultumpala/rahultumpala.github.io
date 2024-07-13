@@ -28,13 +28,15 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    container:
+      image: ubuntu:jammy
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Download Lowdown
-        run: sudo apt-get -y install lowdown
+        run: sudo-apt get update && sudo apt-get -y install lowdown
       - name: Generate Site with DEPLOY_ENV=PROD
         run: export DEPLOY_ENV=PROD && bash gen.sh
       - name: Upload artifact
