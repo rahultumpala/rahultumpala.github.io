@@ -1,6 +1,6 @@
----
-title: Writing a Regex matcher
----
+#  Writing a Regex matcher
+May 16, 2024
+Build a mini regex engine with me.
 
 I've been trying to solve a problem for over a year, to write a working regex engine. I am now a step closer to it. I solved the leetcode hard problem [Regular Expression Matching](https://leetcode.com/problems/regular-expression-matching/description/) and I am happy!
 
@@ -28,6 +28,7 @@ p = "c*a*b"  \
 result = true
 
 #### my code
+
 
 ```c++
 bool isMatch(string s, string p) {
@@ -73,6 +74,7 @@ bool isMatch(string s, string p) {
     return l == n;
 }
 ```
+
 
 Reading through the problem statement, we can deduce there'll be only 4 cases to deal with:
 

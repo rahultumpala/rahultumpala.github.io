@@ -1,8 +1,6 @@
----
-title: Writing a JSON Parser in C
----
-
-# Writing a JSON Parser in C
+#  Writing a JSON Parser in C
+January 20, 2024
+Build a JSON parser with me in C.
 
 This post is long overdue.
 
@@ -15,12 +13,13 @@ _JSON (JavaScript Object Notation)_
 _JSON is omnipresent - me (2023)_
 
 **Contents:**
-- [Grammar](#grammar)
-- [Parser](#parser)
-  - [Lexer](#lexer)
-  - [Syntax Parsing](#syntax-parsing)
-    - [void ptrs conversion to struct](#void-ptrs-conversion-to-struct)
-- [Object Manipulation](#object-manipulation)
+- [Writing a JSON Parser in C](#writing-a-json-parser-in-c)
+  - [Grammar](#grammar)
+  - [Parser](#parser)
+    - [Lexer](#lexer)
+    - [Syntax Parsing](#syntax-parsing)
+      - [void ptrs conversion to struct](#void-ptrs-conversion-to-struct)
+  - [Object Manipulation](#object-manipulation)
 
 ## Grammar
 

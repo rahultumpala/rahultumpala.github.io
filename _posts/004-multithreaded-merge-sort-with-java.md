@@ -1,8 +1,6 @@
----
-title: Multithreaded Merge Sort with Java
----
-
-# Multi-threaded Merge sort with Java
+# Multithreaded Merge Sort with Java
+March 10, 2024
+understand Multithreading in Java with merge sort.
 
 Hello there, it's been some time since my last post. I've been busy with work. Being busy with work is good too, I got the chance to play with multi threading.
 
@@ -10,7 +8,8 @@ If you've been following me since the beginning then you'll notice that all my c
 
 I was working on a Spring boot application -- spring apps are used to serve REST APIs -- and this app had an API that accepted an entity in the request body, the API then reads a file, calls another service with this request entity and returns a response object. The org decided to add an API that accepts multiple entities in request. The goal was to make the processing flow parallel, since each entity & their response is independent of each other.
 
-Luckily, I had some experience implementing multi-threading using `ForkJoinPool`, so I quickly got to work. `ForkJoinPool`s accept `RecursiveTask`s and  `RecursiveAction`s.
+Luckily, I had some experience implementing multi-threading using `ForkJoinPool`, so I quickly got to work. `ForkJoinPool`s accept `RecursiveTask`s and `RecursiveAction`s.
+
 - `RecursiveAction` recursively splits the input action into sub-actions and performs some computation on the input. Each sub-action may run in separate threads, if available.
 - `RecursiveTask`, while similar to `RecursiveAction` also returns the result of the computation. This is predominantly used when the results of each recursive-sub-action could be used to generate the result of the parent action.
 
@@ -64,6 +63,7 @@ Merge sort is a divide and conquer algorithm.
 method definitions:
 
 **sort**
+
 ```java
 private List<Integer> sort(List<Integer> nums){
         int len = nums.size();
@@ -77,6 +77,7 @@ private List<Integer> sort(List<Integer> nums){
         return merge(left, right);
     }
 ```
+
 and **merge**
 
 ```java
@@ -148,6 +149,7 @@ A `RecursiveTask` has one mandatory method `compute()` that is invoked ONCE per 
         return this.merge(left.join(), right.join());
     }
 ```
+
 Name of the spawned thread is printed into stdout.
 
 Now, the division is complete, it's time to merge the results. The merge method is exactly the same as above.
@@ -155,11 +157,13 @@ Now, the division is complete, it's time to merge the results. The merge method 
 ```java
 this.merge(left.join(), right.join())
 ```
+
 this line joins the forked left and right tasks, i.e, wait for their computation to be complete and results to be returned, then proceeds to forward their results as input to the merge method.
 
 ### Submit and Invoke using ForkJoinPool
 
 The first step is to create a `ForkJoinPool`
+
 ```java
 ForkJoinPool pool = new ForkJoinPool(Runtime.getRuntime().availableProcessors(), factory, null, false);
 ```
@@ -167,7 +171,7 @@ ForkJoinPool pool = new ForkJoinPool(Runtime.getRuntime().availableProcessors(),
 Sharing classloaders across all threads will ensure that all methods in your recursive task/action have access to classloader context and nothing is missed. It is possible to do so using a worker thread factory.
 
 ```java
- ForkJoinPool.ForkJoinWorkerThreadFactory factory = new ForkJoinPool.           ForkJoinWorkerThreadFactory() {
+ ForkJoinPool.ForkJoinWorkerThreadFactory factory = new ForkJoinPool.ForkJoinWorkerThreadFactory() {
     @Override
     public ForkJoinWorkerThread newThread(ForkJoinPool pool) {
         ForkJoinWorkerThread worker = ForkJoinPool.defaultForkJoinWorkerThreadFactory.newThread(pool);
@@ -191,6 +195,7 @@ for (int fileNum = 0; fileNum < numFiles ; fileNum++) {
 If you want to step it up a notch you could invoke only one task and handle the action of iterating & reading from the file in newly generated tasks by forking them to the pool. WILD!
 
 Few Benchmarks for sorting all the 100 files using merge sort.
+
 ```
 Machine spec:
 AMD Ryzen 6cores 12threads 16gb mem
