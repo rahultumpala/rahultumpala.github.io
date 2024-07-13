@@ -36,7 +36,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Download Lowdown
-        run: sudo-apt get update && sudo apt-get -y install lowdown
+        run: sudo apt-get update && sudo apt-get -y install lowdown
       - name: Generate Site with DEPLOY_ENV=PROD
         run: export DEPLOY_ENV=PROD && bash gen.sh
       - name: Upload artifact
