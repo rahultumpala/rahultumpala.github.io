@@ -24,7 +24,7 @@ function generate_base_html() {
     if [[ -z "${DEPLOY_ENV}" ]]; then
         # since DEPLOy_ENV isn't set
         sed "s/__google_analytics__//" -i post.html
-    else 
+    else
         # need to set DEPLOY_ENV in github actions
         google_analytics
     fi
@@ -149,9 +149,10 @@ function generate_home() {
         date=$(date --date="$date_string" "+%d %b %Y")
         year=$(date --date="$date_string" "+%Y")
 
-        mkdir _site/$year 2>/dev/null # create year dir if not exists, ignore already created errors
         # for backwards compatibility, already shared links with /year/slug shouldn't break
+        mkdir _site/$year 2>/dev/null # create year dir if not exists, ignore already created errors
         cp -r _site/$page_dir _site/$year/
+        cp -r _site/assets _site/$year
 
         # generate html of post from markdown file
         page_dir=${md_file:4}     # substring to ignore the prefixed digits
