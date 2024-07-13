@@ -41,8 +41,7 @@ jobs:
             ./configure
             make
             make regress
-            make install install_libs
-            install ./lowdown /usr/bin/
+            sudo install ./lowdown /usr/bin/
       - name: Generate Site with DEPLOY_ENV=PROD
         run: export DEPLOY_ENV=PROD && bash gen.sh
       - name: Upload artifact
