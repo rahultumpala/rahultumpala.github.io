@@ -1,42 +1,39 @@
 @font-face {
-    font-family: 'Roboto Mono';
-    src: url('fonts/RobotoMono-VariableFont_wght.ttf') format('truetype');
-    font-weight: 1 999;
-    font-style: normal;
-    font-stretch: 50% 200%;
+  font-family: "Noto Serif";
+  src: url("fonts/NotoSerif-VariableFont_wdth\,wght.ttf") format("truetype");
+  font-weight: 1 999;
+  font-style: normal;
+  font-stretch: 50% 200%;
 }
 
 @font-face {
-    font-family: 'Roboto Mono';
-    src: url('fonts/RobotoMono-Italic-VariableFont_wght.ttf') format('truetype');
-    font-weight: 1 999;
-    font-style: italic;
-    font-stretch: 50% 200%;
+  font-family: "Noto Serif";
+  src: url("fonts/NotoSerif-Italic-VariableFont_wdth\,wght.ttf")
+    format("truetype");
+  font-weight: 1 999;
+  font-style: italic;
+  font-stretch: 50% 200%;
 }
 
-@font-face {
-    font-family: 'Noto Serif';
-    src: url('fonts/NotoSerif-VariableFont_wdth\,wght.ttf') format('truetype');
-    font-weight: 1 999;
-    font-style: normal;
-    font-stretch: 50% 200%;
+a.site-title {
+  font-family: "Cormorant Garamond", serif !important;
+  font-weight: 700;
+  font-style: italic;
 }
-
-@font-face {
-    font-family: 'Noto Serif';
-    src: url('fonts/NotoSerif-Italic-VariableFont_wdth\,wght.ttf') format('truetype');
-    font-weight: 1 999;
-    font-style: italic;
-    font-stretch: 50% 200%;
-}
-
-/* Define other weights and styles as needed */
-
 
 body {
-    font-family: 'Noto Serif', monospace !important;
+  font-family: "Noto Serif", serif !important;
 }
 
-a {
-    color: #860111 !important;
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Cormorant Garamond", serif !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+}
+
+a:visited {
+  color: #000000 !important;
 }
