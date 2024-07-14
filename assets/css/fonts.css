@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Noto Serif";
-  src: url("fonts/NotoSerif-VariableFont_wdth\,wght.ttf") format("truetype");
+  src: url("fonts/NotoSerif-VariableFont_wdth.ttf") format("truetype");
   font-weight: 1 999;
   font-style: normal;
   font-stretch: 50% 200%;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: "Noto Serif";
-  src: url("fonts/NotoSerif-Italic-VariableFont_wdth\,wght.ttf")
+  src: url("fonts/NotoSerif-Italic-VariableFont_wdth.ttf")
     format("truetype");
   font-weight: 1 999;
   font-style: italic;
