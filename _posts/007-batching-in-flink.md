@@ -7,6 +7,7 @@ I've been using Apache Flink at work for almost two years now. During this perio
 In context of this post, we'll refer to an element that crosses each process function as an entity.
 
 For a feature I was implementing, I had to build a mechanism that performs the following operations:
+
 1. Hold a certain number of entities in memory.
 2. Batch the entities into a single entity when a certain threshold is reached and push to downstream process functions.
 3. If the threshold is not reached within a said interval then batch the existing entities into one and push downstream.
@@ -31,7 +32,7 @@ Using a window allows you to optionally specify allowedLateness, a trigger and a
 
 Briefly:
 
-- allowedLateness: You can specify how late an element can enter the window. "lateness" is calculated through event time. Event time is a timestamp attached to every entity(event) internally but this feature requires watermarking enabled because watermarks are treated as window boundaries based on which lateness is calculated. allowedLateness is 0 yby default.
+- allowedLateness: You can specify how late an element can enter the window. "lateness" is calculated through event time. Event time is a timestamp attached to every entity(event) internally but this feature requires watermarking enabled because watermarks are treated as window boundaries based on which lateness is calculated. allowedLateness is 0 by default.
 
 - trigger: A trigger can be fired registered on the window to trigger the computation, to clear the window or to do both. A trigger can be used to register timers for future actions as well. In our case a `CountTrigger` can be used to perform some computation when the threshold is reached. `CountTrigger` is available out of the box.
 
