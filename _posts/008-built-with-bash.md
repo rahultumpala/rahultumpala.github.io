@@ -85,6 +85,8 @@ date --date="July 15, 2024" "+%d %b %Y"
 
 The output format is used to represent dates in the homepage.
 
+The slug that you see in the post URI, for this post it's **_built-with-bash_**. This slug is taken from the file name. If you have a file named "first-post.md", it will be rendered at _blog.com/first-post_.
+
 A bit of code organization into functions and using the cryptic function syntax like `$1` to get first argument and `$@` to get all arguments...and we're done.
 
 The whole script is around 190 lines with 153 loc (lines of code). It's available on my [github repo](https://github.com/rahultumpala/rahultumpala.github.io/blob/main/gen.sh) for this site.
