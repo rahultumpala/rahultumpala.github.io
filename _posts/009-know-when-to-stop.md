@@ -13,4 +13,10 @@ This service had a REST interface through Spring and invokes the required activi
 
 10 days ago I started reading through Akka documentation and came to a conclusion that we could use the Actor model effectively with separate dispatchers for IO bound actors and a separate dispatcher for the main system, with a high queue size for both.
 
-It seemed like a good solution and I started the rewrite, replicated a good amount of functionality through Actors.
+It seemed like a good solution and I started the rewrite, replicated a good amount of functionality through Actors and started testing. While testing I noticed that Spring instantiated beans are not being injected into the actors although I was using the `@Autowired` annotation.
+
+I googled for more than a day and realised that Spring instantiated beans cannot be injected into typed actors that are created using the `getContext().spawn()` method. There are spring extensions that instantiate untyped actors and we can utilize the `@Autowired` annotation in those actors, but this functionality is absent in the case of typed actors. There is no official documentation either. One cannot instantiate typed actors outside of the actor system. 
+
+This was a huge blocker. I was at crossroads and possible solutions were to switch back to untyped actors, move away from spring and switch to play since it has great support for akka or use guice for DI, or just instantiate everything whenever needed and don't depend on DI which is great because it does not cause any concurrent access issues and follows the functional programming paradigm in a way.
+
+Unfortunately, none of these were viable due to the size of the repository and how tightly coupled all the classes were with spring annotations. The refactoring would take weeks and if we were to go this way it would be beneficial to rewrite everything from scratch and design it in an akka friendly way. Also, the sprint would be completed and we would have to spill this task or reprioritize. This is one of the primary reasons I dislike the agile, scrum methodologies. Work is measured based on the outcome and research efforts cannot be quantified in this manner and hence cannot be represented in terms of measurable outcomes. What a strange standard.
