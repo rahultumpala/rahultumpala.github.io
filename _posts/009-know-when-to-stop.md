@@ -3,7 +3,7 @@ July 17, 2024
 We spend a lot of time on many ideas, some work out, some don't. It's important to spot early signs walking on false trails.
 
 
-We spend a lot of time on many ideas, some work out, some don't. It's important to spot early signs walking on false trails. 
+We spend a lot of time on many ideas, some work out, some don't. It's important to spot early signs of walking on false trails. 
 
 Recently I put forward a proposition at work. I proposed we rewrite a service that's using temporal into one that uses Akka. Temporal wasn't being maintained by our team, it's deployed and owned by another team and our workflows are executed on their instance. This is acceptable because having two instances of temporal increases cost considerably. The rewrite had to be backwards compatibile as well, so I needed to add actors support in the main service itself.
 
