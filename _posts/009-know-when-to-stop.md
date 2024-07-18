@@ -31,7 +31,7 @@ Laying down the required work, documenting it in minute detail probably would ha
 
 Things that seem trivial may not really be trivial. This is probably something that can be learnt through experience and experimentation.
 
-I took DI for granted because there weren't any instances where it didn't behave as expected. In hindsight, all of them were spring / spring related services / services that I had written from scratch, so I had control over external DI libraries or trivial DI implementations that I've written.
+I took DI for granted because there weren't any instances where it didn't behave as expected. In retrospect, all of them were spring / spring related services / services that I had written from scratch, so I had control over external DI libraries or trivial DI implementations that I've written.
 
 This was a valuable lesson. 
 
