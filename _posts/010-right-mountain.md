@@ -30,8 +30,34 @@ When the deadline is relaxed enough, you tend to focus on the nits and bits of t
 
 Why?
 
-The human mind craves perfection, you give yourself a relaxed deadline because you want to truly achieve something without cutting any corners. As sincere as you are, you devote your time and energy into the procedure and to truly cut no corners you study things in great depth, presuming you have enough time to reach your short-term goal.
+The human mind craves perfection, you give yourself a relaxed deadline because you want to truly achieve something without cutting any corners. As sincere as you are, you devote your time and energy into the procedure and to truly cut no corners you study things in great depth, presuming you have enough time to reach your short-term goal. What happens when you study something in great depth? Naturally, you build a likeness towards it. It's a good thing. But, more often than not, one finds themselves going down a rabbit hole of their branching interests. Doing a deep dive of something you needed to learn to achieve something else, often throws you out of track. Consider the example: it is your goal to run for an hour and you need to build up stamina for it. You consider swimming as it helps in building stamina, here the intent must be to swim in order to gain stamina but not to be better at swimming. Becoming better at swimming is a consequence of your training to build up stamina but building up stamina should not be a consequence of becoming a better swimmer because your goal is to run, not to swim. The difference is consciousness, you need to be conscious of your long-term goals at all times, else it is easy to misalign your objectives.
+
+The below picture depicts this idea.
 
 <figure>
 <img src="../source_code/right_mountain/right_mountain_2.PNG" width="640" height="360">
 </figure>
+
+The outcomes are not directly contributing to the subsequent steps, nor are they transferrable skills that help you in your next step. This could be true for many things, you may need to perform two independent tasks that are required to achieve your goals, but defining your procedures and outcomes in this way does not help you in tracking progress. If you need to see improvement then you must define your outcomes such that they build on each other.
+
+If the gap is too much, transferring your current progress onto the next one becomes difficult. Worst case, you may have to start from scratch for step 2, and even step 3. Misaligned objectives bleed time and effort.
+
+It's easy to get lost in the depths, depths you must dive into, to gain knowledge and fulfil your short-term goal. Consider drafting your plan such that your short-term goals are always **directly** contributing to your long-term goals and that your short-term goals are not entirely independent of each other, for if you desire to climb a mountain, you cannot train on a plateau. Define your objectives and end results such that the next step builds on top of the current steps outcome, no matter how small the relation is. 
+
+A step is a step. 
+
+If you find yourself walking off trail, revisit the procedure you've drafted for the step you're currently in and realingn your outcomes to the end goal. A detour is okay, a deviation is not. Allow yourself to be corrected once in a while.
+
+<figure>
+<img src="../source_code/right_mountain/right_mountain_3.PNG" width="640" height="360">
+</figure>
+
+If you pull it off, great! Building a transferrable skill set is incredible. Tracking progress keeps you disciplined and builds confidence over time.
+
+When you shift your perspective from having a side view of what success is seen and shift your focus onto what your short term goals are and how they align to your long term goal, the path becomes linear and easier.
+
+Devoting yourself to something is difficult and deserves praise, if what you're devoting yourself to is your end goal then great, but if not, exercise caution while doing so as part of a bigger plan. Track your progress in meticulous detail and keep ensure you climb the right mountain. Best of luck to you.
+
+I hope you understood.
+
+_~rahultumpala_
