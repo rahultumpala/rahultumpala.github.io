@@ -38,21 +38,21 @@ The below picture depicts this idea.
 <img src="../source_code/right_mountain/right_mountain_2.PNG" width="640" height="360">
 </figure>
 
-The outcomes are not directly contributing to the subsequent steps, nor are they transferrable skills that help you in your next step. This could be true for many things, you may need to perform two independent tasks that are required to achieve your goals, but defining your procedures and outcomes in this way does not help you in tracking progress. If you need to see improvement then you must define your outcomes such that they build on each other.
+The outcomes are not directly contributing to the subsequent steps, nor are they transferrable skills that help you in your next step. This could be true for many things, you may need to perform two independent tasks that are required to achieve your goals, but defining your procedures and outcomes in this way does not help you in tracking progress. If you need to see improvement then you must define your outcomes such that they build upon each other.
 
-If the gap is too much, transferring your current progress onto the next one becomes difficult. Worst case, you may have to start from scratch for step 2, and even step 3. Misaligned objectives bleed time and effort.
+If the gap is too much, transferring your current progress onto the next one becomes difficult. The Worst case, you may have to start from scratch for step 2, and even step 3. Misaligned objectives bleed time and effort.
 
-It's easy to get lost in the depths, depths you must dive into, to gain knowledge and fulfil your short-term goal. Consider drafting your plan such that your short-term goals are always **directly** contributing to your long-term goals and that your short-term goals are not entirely independent of each other, for if you desire to climb a mountain, you cannot train on a plateau. Define your objectives and end results such that the next step builds on top of the current steps outcome, no matter how small the relation is. 
+It's easy to get lost in the depths, depths you must dive into, to gain knowledge and fulfil your short-term goal. Consider drafting your plan such that your short-term goals are always **directly** contributing to your long-term goals and that your short-term goals are not entirely independent of each other, for if you desire to climb a mountain, you cannot train on a plateau. Define your objectives and end results such that the next step builds on top of the current steps' outcome, no matter how small the relation is. 
 
 A step is a step. 
 
-If you find yourself walking off trail, revisit the procedure you've drafted for the step you're currently in and realingn your outcomes to the end goal. A detour is okay, a deviation is not. Allow yourself to be corrected once in a while.
+If you find yourself walking off trail, revisit the procedure you've drafted for the step you're currently in and realign your outcomes to the end goal. A detour is okay, a deviation is not. Allow yourself to be corrected once in a while.
 
 <figure>
 <img src="../source_code/right_mountain/right_mountain_3.PNG" width="640" height="360">
 </figure>
 
-If you pull it off, great! Building a transferrable skill set is incredible. Tracking progress keeps you disciplined and builds confidence over time.
+If you pull it off, Great! Building a transferable skill set is incredible. Tracking progress keeps you disciplined and builds confidence over time.
 
 When you shift your perspective from having a side view of what success is seen and shift your focus onto what your short term goals are and how they align to your long term goal, the path becomes linear and easier.
 
