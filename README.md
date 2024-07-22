@@ -1,5 +1,5 @@
-Hi reader, I'm Rahul Tumpala.
+Hello, I'm Rahul Tumpala.
 
-I am teaching myself computer science along with other amazing things.
+I'm teaching myself computer science along with other amazing things.
 
-In this blog, you’ll find posts about stuff I’m fascinated about.
+In this blog, you’ll find posts about stuff I’m fascinated about and a few things in general.
