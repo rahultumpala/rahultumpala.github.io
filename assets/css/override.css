@@ -1,3 +1,7 @@
+.site-title:hover {
+  text-decoration: none;
+}
+
 hr {
   margin-top: 30px;
   margin-bottom: 20px;
