@@ -12,7 +12,7 @@ In other words, are you walking the trail that leads to the summit of your mount
 
 **Are you climbing the right mountain?**
 
-I'd like to share my objective point of view to this question, with a few illustrations to deliver my point.
+I'd like to share my objective point of view to this question with a few illustrations.
 
 I viewed the path to success in this manner.
 
@@ -30,7 +30,11 @@ When the deadline is relaxed enough, you tend to focus on the nits and bits of t
 
 Why?
 
-The human mind craves perfection, you give yourself a relaxed deadline because you want to truly achieve something without cutting any corners. As sincere as you are, you devote your time and energy into the procedure and to truly cut no corners you study things in great depth, presuming you have enough time to reach your short-term goal. What happens when you study something in great depth? Naturally, you build a likeness towards it. It's a good thing. But, more often than not, one finds themselves going down a rabbit hole of their branching interests. Doing a deep dive of something you needed to learn to achieve something else, often throws you out of track. Consider the example: it is your goal to run for an hour and you need to build up stamina for it. You consider swimming as it helps in building stamina, here the intent must be to swim in order to gain stamina but not to be better at swimming. Becoming better at swimming is a consequence of your training to build up stamina but building up stamina should not be a consequence of becoming a better swimmer because your goal is to run, not to swim. The difference is consciousness, you need to be conscious of your long-term goals at all times, else it is easy to misalign your objectives.
+The human mind craves perfection, you give yourself a relaxed deadline because you want to truly achieve something without cutting any corners. As sincere as you are, you devote your time and energy into the procedure and to truly cut no corners you study things in great depth, presuming you have enough time to reach your short-term goal. What happens when you study something in great depth? Naturally, you build a likeness towards it. It's a good thing. However, one usually finds themselves going down a rabbit hole of their branching interests. Doing a deep dive of something you needed to learn to achieve something else, often throws you off track. 
+
+Consider the example: it is your goal to run for an hour and you need to build up stamina for it. You consider swimming as it helps in building stamina, here the intent must be to swim in order to gain stamina but not to be better at swimming. Becoming better at swimming is a consequence of your training to build up stamina but building up stamina should not be a consequence of becoming a better swimmer, because your goal is to run, not to swim.
+
+The difference is consciousness, you need to be conscious of your long-term goals at all times, else it is easy to misalign your objectives.
 
 The below picture depicts this idea.
 
@@ -54,9 +58,9 @@ If you find yourself walking off trail, revisit the procedure you've drafted for
 
 If you pull it off, Great! Building a transferable skill set is incredible. Tracking progress keeps you disciplined and builds confidence over time.
 
-When you shift your perspective from having a side view of what success is seen and shift your focus onto what your short term goals are and how they align to your long term goal, the path becomes linear and easier.
+When you shift your perspective from having a side view of success to focus on what your short term goals are and how they align to your long term goal, the path becomes linear and easier.
 
-Devoting yourself to something is difficult and deserves praise, if what you're devoting yourself to is your end goal then great, but if not, exercise caution while doing so as part of a bigger plan. Track your progress in meticulous detail and keep ensure you climb the right mountain. Best of luck to you.
+Devoting yourself to something is difficult and deserves praise, if what you're devoting yourself to is your end goal then great, but if not, exercise caution while doing so as part of a bigger plan. Track your progress in meticulous detail to ensure you climb the right mountain. Best of luck to you.
 
 I hope you understood.
 
