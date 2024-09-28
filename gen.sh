@@ -70,6 +70,12 @@ function generate_posts() {
 
     for md_file in $posts; do
 
+        if [[ $md_file == __skip__* ]];
+        then
+            echo Skipping page generation for $md_file
+            continue
+        fi
+
         # get title from first line
         title=$(awk 'NR == 1' _posts/$md_file)
         title=${title:2} # ignore the # character
@@ -141,6 +147,13 @@ function generate_home() {
 
     index=0
     for md_file in $posts; do
+
+        if [[ $md_file == __skip__* ]];
+        then
+            echo Skipping home link for $md_file
+            continue
+        fi
+
         # get title from first line
         title=$(awk "NR == 1" _posts/$md_file)
         title=${title:2}
