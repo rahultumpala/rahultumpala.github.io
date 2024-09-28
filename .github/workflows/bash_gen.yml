@@ -35,8 +35,8 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Download Lowdown
         run: |
-            wget https://kristaps.bsd.lv/lowdown/snapshots/lowdown.tar.gz
-            tar -xf lowdown.tar.gz
+            wget https://kristaps.bsd.lv/lowdown/snapshots/lowdown-1.1.0.tar.gz
+            tar -xf lowdown-1.1.0.tar.gz
             cd lowdown-1.1.0/
             ./configure
             make
