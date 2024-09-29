@@ -40,7 +40,7 @@ and the little endian version:
 
 If you notice, all binary numbers as we know, are represented in big-endian form. So, theoretically, I could read the first 4 bytes from the file and cast it into a 32 bit integer and expect the decimal value of the integer to be 1380533830. This is only partially true.
 
-My PC, running Windows on an AMD processor is little-endian but the docker container I use, running Ubuntu is big-endian. Therefore, the C++ code I wrote for reading a WAV file, that worked on my Windows PC failed its assertions when recompiled in the docker container, because the host changed and the integer values were different.
+My PC, running Windows on an AMD processor is little-endian but my laptop running Ubuntu is big-endian. Therefore, the C++ code I wrote for reading a WAV file, that worked on my Windows PC failed its assertions when recompiled on my laptop, because the host changed and the endianness was different.
 
 So, how do we tackle this through code?
 
