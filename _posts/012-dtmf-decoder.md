@@ -111,7 +111,6 @@ The implemention in Elixir lang is as follows:
   end
 ```
 
-
 whereas the `get_dtmf_char` is only a static map as follows
 
 ```elixir
