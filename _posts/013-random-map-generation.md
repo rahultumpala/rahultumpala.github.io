@@ -50,7 +50,7 @@ To make this a bit more interesting, the beginning cell denoted by `[1,1]` and t
 When finished, the end result will be similar to the following image:
 
 <figure>
-<img src="../source_code/random-map/grid-01.png" width="600" height="300">
+<img src="../source_code/random-map/grid-01.PNG" width="600" height="300">
 <figcaption> <i> Generated random map with start and end points marked in red. </i> </figcaption>
 </figure>
 
@@ -61,7 +61,7 @@ I've implemented Depth-first search(DFS) that will only result in a path from st
 The shortest path can now be visualized by changing the background color of each cell in the path from grey to red (or any other color).
 
 <figure>
-<img src="../source_code/random-map/grid-02.png" width="600" height="300">
+<img src="../source_code/random-map/grid-02.PNG" width="600" height="300">
 <figcaption> <i> Shortest path from start to end. Found using Breadth-first search (BFS). </i> </figcaption>
 </figure>
 
