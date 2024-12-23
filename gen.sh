@@ -159,7 +159,7 @@ function generate_home() {
         title=${title:2}
 
         date_string=$(awk "NR == 2" _posts/$md_file)
-        date=$(date --date="$date_string" "+%d %b %Y")
+        date=$(date --date="$date_string" "+%d %^b %Y")
         year=$(date --date="$date_string" "+%Y")
 
         # for backwards compatibility, already shared links with /year/slug shouldn't break
