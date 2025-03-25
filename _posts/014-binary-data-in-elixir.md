@@ -8,7 +8,7 @@ I like functional programming and the associated benefit/safety of immutable dat
 
 I just finished reading [Elixir in Action,](https://www.manning.com/books/elixir-in-action) and I found it incredibly well written. Along with that, I've been solving challenges on the [Hackattic](https://hackattic.com) website using Elixir lang. It has given me the opportunity to work with binaries while decoding base64-encoded data, reading `.wav` and `.rdb` files.
 
-In the beginning it was difficult to even read a fixed number of bytes, but I've slowly started to appreciate the macros and the pattern matching constructs of the Elixir lang that have made the process much simpler.
+In the beginning it was difficult to even read a fixed number of bytes, but I've slowly started to appreciate pattern matching constructs and macros of the Elixir lang that made the process much simpler.
 
 I'd like to show you a few techniques that I think will help you.
 
