@@ -1,6 +1,6 @@
 # Iris for Elixir
-
 October 27, 2025
+Introduction to the iris library for Elixir programming language
 
 Hello,
 

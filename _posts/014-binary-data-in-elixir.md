@@ -1,6 +1,6 @@
 # Handling binary data in Elixir
-
 March 24, 2025
+A short guide on working with binary data in Elixir
 
 Hello,
 
