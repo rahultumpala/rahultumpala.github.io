@@ -44,6 +44,7 @@ Iris is an Elixir library that visualizes your codebase and plots function call 
 
 Feel free to open a github issue describing your problem in integrating iris with your project. This project's implementation can be improved a lot, pull requests that improve the codebase/address any issues are welcome.
 
+There is a dedicated thread for this library in Elixir forum as well. We can also have a meaningful discussion about possible new features for iris in the forum.
 ---
 
 I will continue to improve Iris with newer features.
