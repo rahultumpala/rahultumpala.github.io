@@ -246,7 +246,7 @@ Elixir provides an `on_definition/6` compile callback that is invoked upon the d
 
 We are leveraing this callback to see if an attribute is already defined by the time this callback is invoked, and to check if this callback was invoked on `defp` or `defmacrop`. If not, a `CompileError` is thrown.
 
-#### Step 3
+### Step 3
 
 Notice the following line in `__using__/1`. 
 
@@ -258,7 +258,7 @@ If the option `:accumulate` is set to false, it means each subequent definition 
 
 In the case of `__idocs__` the option `:accumulate` is set to true. We are defining this special attribute to store all docs. We're updating this in the `on_definition/6` hook.
 
-#### Step 4
+### Step 4
 
 We're using the `before_compile` callback to verify there are no orphan `@idoc` attributes defined in the module and just before wrapping up, we inject a final piece of code.
 
@@ -282,7 +282,7 @@ Note the following:
 2. `before_compile` is executed at the end of the compilation stage of the module and before the compilation finishes for the entire project. This is the reason the `@__idocs__` attribute contains the values of all functions in the module. If this callback were to be executed before the compilation of the module begins, then the attribute would be empty, but that is not the case.
 
 
-#### References
+## References
 
 - quote: https://hexdocs.pm/elixir/Kernel.SpecialForms.html#quote/2
 - unquote: https://hexdocs.pm/elixir/Kernel.SpecialForms.html#unquote/1
